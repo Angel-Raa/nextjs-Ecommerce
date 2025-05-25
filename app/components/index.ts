@@ -9,3 +9,4 @@ export { ProductsGrid } from "./products/ProductsGrid";
 export { ProductsGridItem } from "./products/ProductsGridItem";
 export { SizeTab } from "./product/SizeTab";
 export { QuantityStepper } from "./product/QuantityStepper";
+export {SlideDeck} from "./product/SlideDeck"
