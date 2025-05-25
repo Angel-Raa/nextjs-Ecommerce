@@ -12,6 +12,7 @@ export const ProductsGridItem = ({ product }: Props) => {
     const { images, price, slug, title } = product;
     const [displayImage, setDisplayImage] = useState(images[0]);
 
+    
     return (
         <div className="fade-in rounded-lg overflow-hidden shadow-md bg-white transition-transform hover:scale-105 duration-300 flex flex-col">
             <Link href={`/product/${slug}`} className="block w-full">
