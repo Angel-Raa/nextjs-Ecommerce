@@ -35,9 +35,15 @@ e-commerce-ssd es una aplicación web para la venta de productos, con funcionali
     ```bash
     bun install
     ```
-3. Configura variables de entorno en `.env.local`.
+3. Configura variables de entorno en `.env.local` (puedes usar el archivo `.env.template` como referencia).
 
-4. Inicia el servidor de desarrollo:
+4. **Levanta la base de datos (PostgreSQL) con Docker:**
+    ```bash
+    docker run --name ecommerce-ssd-db -e POSTGRES_USER=tu_usuario -e POSTGRES_PASSWORD=tu_password -e POSTGRES_DB=tu_db -p 5432:5432 -d postgres:15
+    ```
+    > Cambia `tu_usuario`, `tu_password` y `tu_db` por los valores que usarás en tu `.env.local`.
+
+5. Inicia el servidor de desarrollo:
     ```bash
     bun run dev
     ```
