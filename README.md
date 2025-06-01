@@ -28,7 +28,7 @@ e-commerce-ssd es una aplicación web para la venta de productos, con funcionali
 1. Clona el repositorio:
 
     ```bash
-    git clone https://github.com/Angel-Raa/nextjs-e-commerce-ssd.git
+    git clone https://github.com/Angel-Raa/nextjs-Ecommerce.git
     cd e-commerce-ssd
     ```
 
