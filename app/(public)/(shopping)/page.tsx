@@ -3,7 +3,7 @@ import { getPaginatedProductsWithImages } from "@/app/actions/products/products-
 import { Pagination, ProductsGrid, Title } from "@/app/components";
 interface Props {
   searchParams: {
-    page?: string;
+    page: string;
   };
 }
 export default async function Shopping({ searchParams }: Props) {

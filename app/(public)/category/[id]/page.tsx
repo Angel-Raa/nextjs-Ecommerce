@@ -7,7 +7,7 @@ interface Props {
     id: string;
   };
   searchParams: {
-    page?: string;
+    page: string;
   };
 }
 
