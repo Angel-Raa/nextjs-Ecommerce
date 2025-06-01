@@ -17,13 +17,11 @@ export const Pagination = ({
   const nextPage = currentPage + 1;
 
   if (totalPages <= 1) return null;
-
   return (
     <div className={`flex items-center justify-center gap-4 ${className}`}>
       {currentPage > 1 && (
         <Link href={`?page=${prevPage}`} className="flex items-center gap-2">
           <ChevronLeft />
-          Anterior
         </Link>
       )}
 
@@ -33,7 +31,6 @@ export const Pagination = ({
 
       {currentPage < totalPages && (
         <Link href={`?page=${nextPage}`} className="flex items-center gap-2">
-          Siguiente
           <ChevronRight />
         </Link>
       )}
