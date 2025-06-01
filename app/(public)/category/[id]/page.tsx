@@ -1,67 +1,81 @@
 export const revalidate = 60; // Revalidate every 60 seconds
+
 import { getPaginatedProductsWithImages } from "@/app/actions/products/products-actions";
 import { Pagination, ProductsGrid, Title } from "@/app/components";
 
-interface Props {
-  params: {
-    id: string;
-  };
-  searchParams: {
-    page: string;
-  };
+interface Params {
+  id: string;
 }
 
-export default async function Categoty({ params, searchParams }: Props) {
-  const { id } = params;
+type SearchParams = {
+  page?: string;
+};
+
+type Gender = "men" | "women" | "kid" | "unisex";
+
+export default async function Category({
+  params,
+  searchParams,
+}: {
+  params: Params;
+  searchParams: SearchParams;
+}) {
+  const { id } = await params;
   const page = searchParams.page ? parseInt(searchParams.page, 10) : 1;
-  // Validar el ID de la categoría
-  if (id && !["men", "women", "kid", "unisex"].includes(id)) {
-    throw new Error("Invalid gender value");
+
+  const allowedGenders: Gender[] = ["men", "women", "kid", "unisex"];
+
+  if (!allowedGenders.includes(id as Gender)) {
+    throw new Error(`Invalid gender value: ${id}`);
   }
 
-  const allowedGenders = ["men", "women", "kid", "unisex"] as const;
-  type Gender = (typeof allowedGenders)[number];
-
-  const gender = allowedGenders.includes(id as Gender)
-    ? (id as Gender)
-    : undefined;
+  const gender = id as Gender;
 
   const { products, pagination } = await getPaginatedProductsWithImages({
     page,
     gender,
   });
+
   if (!products || products.length === 0) {
-    return <Title title="Tienda" subtitle="No hay productos disponibles" />;
+    return (
+      <Title
+        title="Tienda"
+        subtitle="No hay productos disponibles"
+        className="mb-8"
+      />
+    );
   }
+
   const { currentPage, totalPages } = pagination;
+
+  const titles: Record<Gender | "default", string> = {
+    men: "Hombres",
+    women: "Mujeres",
+    kid: "Niños",
+    unisex: "Unisex",
+    default: "Tienda",
+  };
+
+  const subtitles: Record<Gender | "default", string> = {
+    men: "Productos para Hombres",
+    women: "Productos para Mujeres",
+    kid: "Productos para Niños",
+    unisex: "Productos Unisex",
+    default: "Todos Los Productos",
+  };
 
   return (
     <>
       <Title
-        title={
-          id === "men"
-            ? "Hombres"
-            : id === "women"
-            ? "Mujeres"
-            : id === "kids"
-            ? "Niños"
-            : "Tienda"
-        }
-        subtitle={
-          id === "men"
-            ? "Productos para Hombres"
-            : id === "women"
-            ? "Productos para Mujeres"
-            : id === "kids"
-            ? "Productos para Niños"
-            : "Todos Los Productos"
-        }
+        title={titles[id as Gender] || titles.default}
+        subtitle={subtitles[id as Gender] || subtitles.default}
+        className="mb-8"
       />
       <ProductsGrid products={products} />
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
-        className="mt-8 mx-auto max-w-2xl items-center justify-center"
+        className="mt-8 mx-auto max-w-2xl flex items-center justify-center"
       />
     </>
   );
