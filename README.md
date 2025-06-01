@@ -69,6 +69,17 @@ e-commerce-ssd es una aplicación web para la venta de productos, con funcionali
 - `bun run build`: Compila la aplicación para producción.
 - `bun run start`: Inicia la aplicación en modo producción.
 - `bunx prisma migrate dev`: Correr las migraciones de Prisma.
+- `bunx prisma db seed`: Ejecuta el script de seed para poblar la base de datos con datos iniciales.
+
+### Ejecutar Seed
+
+Para poblar la base de datos con datos iniciales, ejecuta:
+
+```bash
+bunx prisma db seed
+```
+
+Asegúrate de que la base de datos esté corriendo y la configuración en `.env.local` sea correcta antes de ejecutar este comando.
 
 ## Contribuir
 

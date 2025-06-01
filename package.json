@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "prisma": {
+    "seed": "bun app/seed/seed-database.ts"
+  },
   "dependencies": {
     "@prisma/client": "^6.8.2",
     "@prisma/extension-accelerate": "^2.0.1",
