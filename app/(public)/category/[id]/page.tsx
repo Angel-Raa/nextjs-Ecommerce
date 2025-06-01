@@ -14,6 +14,9 @@ export default async function Categoty({ params, searchParams }: Props) {
   const { id } = params;
   const page = searchParams.page ? parseInt(searchParams.page, 10) : 1;
   // Validar el ID de la categoría
+  if (id && !["men", "women", "kid", "unisex"].includes(id)) {
+    throw new Error("Invalid gender value");
+  }
 
   const allowedGenders = ["men", "women", "kid", "unisex"] as const;
   type Gender = (typeof allowedGenders)[number];

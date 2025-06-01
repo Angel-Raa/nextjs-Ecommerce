@@ -17,6 +17,11 @@ export const getPaginatedProductsWithImages = async ({
     const validatedPage = Math.max(1, page);
     const validatedTake = Math.max(1, take);
 
+    // Valida gender
+    if (gender && !["men", "women", "kid", "unisex"].includes(gender)) {
+      throw new Error("Invalid gender value");
+    }
+
     const [productsCount, products] = await Promise.all([
       prisma.product.count(),
       prisma.product.findMany({
