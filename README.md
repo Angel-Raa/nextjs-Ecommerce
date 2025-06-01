@@ -12,7 +12,6 @@ Proyecto de tienda en línea desarrollado con Next.js.
 - [Contribuir](#contribuir)
 - [Licencia](#licencia)
 
-
 ## Descripción
 
 e-commerce-ssd es una aplicación web para la venta de productos, con funcionalidades de catálogo, carrito de compras y gestión de usuarios.
@@ -27,23 +26,30 @@ e-commerce-ssd es una aplicación web para la venta de productos, con funcionali
 ## Instalación
 
 1. Clona el repositorio:
+
     ```bash
     git clone https://github.com/Angel-Raa/nextjs-e-commerce-ssd.git
     cd e-commerce-ssd
     ```
+
 2. Instala dependencias:
+
     ```bash
     bun install
     ```
+
 3. Configura variables de entorno en `.env.local` (puedes usar el archivo `.env.template` como referencia).
 
 4. **Levanta la base de datos (PostgreSQL) con Docker:**
+
     ```bash
     docker run --name ecommerce-ssd-db -e POSTGRES_USER=tu_usuario -e POSTGRES_PASSWORD=tu_password -e POSTGRES_DB=tu_db -p 5432:5432 -d postgres:15
     ```
+
     > Cambia `tu_usuario`, `tu_password` y `tu_db` por los valores que usarás en tu `.env.local`.
 
 5. Inicia el servidor de desarrollo:
+
     ```bash
     bun run dev
     ```
@@ -62,6 +68,7 @@ e-commerce-ssd es una aplicación web para la venta de productos, con funcionali
 - `bun run dev`: Inicia el servidor de desarrollo.
 - `bun run build`: Compila la aplicación para producción.
 - `bun run start`: Inicia la aplicación en modo producción.
+- `bunx prisma migrate dev`: Correr las migraciones de Prisma.
 
 ## Contribuir
 
