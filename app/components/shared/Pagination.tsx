@@ -2,7 +2,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
-interface CompactPaginationProps {
+interface Props {
   currentPage: number;
   totalPages: number;
   className?: string;
@@ -12,7 +12,7 @@ export const Pagination = ({
   currentPage,
   totalPages,
   className = "",
-}: CompactPaginationProps) => {
+}: Props) => {
   const prevPage = currentPage - 1;
   const nextPage = currentPage + 1;
 

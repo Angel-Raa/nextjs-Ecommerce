@@ -5,11 +5,13 @@ import prisma from "@/lib/database/prisma";
 interface PaginationParams {
   page?: number;
   take?: number;
+  gender?: "men" | "women" | "kid" | "unisex";
 }
 
 export const getPaginatedProductsWithImages = async ({
   page = 1,
-  take = 10,
+  take = 12,
+  gender,
 }: PaginationParams = {}) => {
   try {
     const validatedPage = Math.max(1, page);
@@ -27,6 +29,7 @@ export const getPaginatedProductsWithImages = async ({
             },
           },
         },
+        where: gender ? { gender } : {},
       }),
     ]);
 

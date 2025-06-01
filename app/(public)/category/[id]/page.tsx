@@ -1,21 +1,36 @@
-import { ProductsGrid, Title } from "@/app/components";
-import { initialData } from "@/app/seed/seed";
+import { getPaginatedProductsWithImages } from "@/app/actions/products/products-actions";
+import { Pagination, ProductsGrid, Title } from "@/app/components";
 
-const productos = initialData.products;
-// Función para filtrar productos por género
-const filterByGender = (gender: "men" | "women" | "kids") => {
-  return productos.filter((product) => product.gender === gender);
-};
 interface Props {
   params: {
     id: string;
   };
+  searchParams: {
+    page?: string;
+  };
 }
 
-export default function Categoty({ params }: Props) {
+export default async function Categoty({ params, searchParams }: Props) {
   const { id } = params;
+  const page = searchParams.page ? parseInt(searchParams.page, 10) : 1;
+  // Validar el ID de la categoría
 
-  const filteredProducts = filterByGender(id as "men" | "women" | "kids");
+  const allowedGenders = ["men", "women", "kid", "unisex"] as const;
+  type Gender = (typeof allowedGenders)[number];
+
+  const gender = allowedGenders.includes(id as Gender)
+    ? (id as Gender)
+    : undefined;
+
+  const { products, pagination } = await getPaginatedProductsWithImages({
+    page,
+    gender,
+  });
+  if (!products || products.length === 0) {
+    return <Title title="Tienda" subtitle="No hay productos disponibles" />;
+  }
+  const { currentPage, totalPages } = pagination;
+
   return (
     <>
       <Title
@@ -38,7 +53,12 @@ export default function Categoty({ params }: Props) {
             : "Todos Los Productos"
         }
       />
-      <ProductsGrid products={filteredProducts} />
+      <ProductsGrid products={products} />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        className="mt-8 mx-auto max-w-2xl items-center justify-center"
+      />
     </>
   );
 }
