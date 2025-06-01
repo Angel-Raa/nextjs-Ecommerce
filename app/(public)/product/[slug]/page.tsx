@@ -2,17 +2,16 @@ import { QuantityStepper, SizeTab, SlideDeck } from "@/app/components";
 import { initialData } from "@/app/seed/seed";
 import { notFound } from "next/navigation";
 
-interface Props {
-  params: {
-    slug: string;
-  };
-}
 const productos = initialData.products;
 function getProductBySlug(slug: string) {
   return productos.find((product) => product.slug === slug);
 }
-export default async function Product({ params }: Props) {
-  const { slug } = params;
+export default async function Product({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
   const product = getProductBySlug(slug);
   if (!product) return notFound();
 
@@ -21,7 +20,11 @@ export default async function Product({ params }: Props) {
       <div className="flex flex-col md:flex-row gap-10 md:gap-20 items-stretch">
         {/* Slideshow */}
         <div className="md:w-2/3 w-full flex items-center justify-center bg-transparent rounded-2xl h-auto md:h-[36rem]">
-          <SlideDeck images={product.images} title={product.title} className="h-full" />
+          <SlideDeck
+            images={product.images}
+            title={product.title}
+            className="h-full"
+          />
         </div>
 
         {/* Details */}

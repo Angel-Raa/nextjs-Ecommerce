@@ -20,14 +20,12 @@ const productInCart = [
   initialData.products[4],
 ];
 
-interface Props {
-  params: {
-    id: string;
-  };
-}
-
-export default async function Order({ params }: Props) {
-  const { id } = params;
+export default async function Order({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
 
   // Mock order data - in real app this would come from database
   const orderData = {

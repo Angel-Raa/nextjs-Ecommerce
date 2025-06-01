@@ -17,11 +17,12 @@ export default async function Category({
   params,
   searchParams,
 }: {
-  params: Params;
-  searchParams: SearchParams;
+  params: Promise<Params>;
+  searchParams: Promise<SearchParams>;
 }) {
   const { id } = await params;
-  const page = searchParams.page ? parseInt(searchParams.page, 10) : 1;
+  const { page } = await searchParams;
+  const pages = page && typeof page === "string" ? parseInt(page, 10) : 1;
 
   const allowedGenders: Gender[] = ["men", "women", "kid", "unisex"];
 
@@ -32,7 +33,7 @@ export default async function Category({
   const gender = id as Gender;
 
   const { products, pagination } = await getPaginatedProductsWithImages({
-    page,
+    page: pages,
     gender,
   });
 
