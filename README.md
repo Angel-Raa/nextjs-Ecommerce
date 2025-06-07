@@ -2,7 +2,7 @@
 
 Proyecto de tienda en línea desarrollado con Next.js.
 
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Angel-Raa/nextjs-Ecommerce)] 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Angel-Raa/nextjs-Ecommerce)
 [![Licencia MIT](https://img.shields.io/badge/Licencia-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 ## Tabla de Contenidos 📖
@@ -14,7 +14,6 @@ Proyecto de tienda en línea desarrollado con Next.js.
 - [Configuración](#configuración-)
 - [Estructura del Proyecto](#estructura-del-proyecto-)
 - [Comandos Útiles](#comandos-útiles-)
-- [Roadmap](#roadmap-)
 - [Contribuir](#contribuir-)
 - [Licencia](#licencia-)
 
