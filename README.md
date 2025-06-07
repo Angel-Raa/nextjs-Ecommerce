@@ -1,10 +1,9 @@
 # E-commerce SSD 🛒
 
-Proyecto de tienda en línea desarrollado con Next.js, diseñado para ofrecer una experiencia de compra rápida, escalable y moderna.
+Proyecto de tienda en línea desarrollado con Next.js.
 
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Angel-Raa/nextjs-Ecommerce)] 
 [![Licencia MIT](https://img.shields.io/badge/Licencia-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Next.js](https://img.shields.io/badge/Next.js-13+-black?logo=next.js)](https://nextjs.org/)
 
 ## Tabla de Contenidos 📖
 
