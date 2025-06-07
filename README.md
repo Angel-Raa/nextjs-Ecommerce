@@ -1,29 +1,47 @@
-# e-commerce-ssd
+# E-commerce SSD 🛒
 
-Proyecto de tienda en línea desarrollado con Next.js.
+Proyecto de tienda en línea desarrollado con Next.js, diseñado para ofrecer una experiencia de compra rápida, escalable y moderna.
 
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Angel-Raa/nextjs-Ecommerce)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Angel-Raa/nextjs-Ecommerce)] 
+[![Licencia MIT](https://img.shields.io/badge/Licencia-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Next.js](https://img.shields.io/badge/Next.js-13+-black?logo=next.js)](https://nextjs.org/)
 
-## Tabla de Contenidos
+## Tabla de Contenidos 📖
 
-- [Descripción](#descripción)
-- [Tecnologías](#tecnologías)
-- [Instalación](#instalación)
-- [Estructura-del-Proyecto](#estructura-del-proyecto)
-- [Comandos-Útiles](#comandos-útiles)
-- [Contribuir](#contribuir)
-- [Licencia](#licencia)
+- [Características Principales](#características-principales-)
+- [Demo en Vivo](#demo-en-vivo-)
+- [Tecnologías](#tecnologías-)
+- [Instalación](#instalación-)
+- [Configuración](#configuración-)
+- [Estructura del Proyecto](#estructura-del-proyecto-)
+- [Comandos Útiles](#comandos-útiles-)
+- [Roadmap](#roadmap-)
+- [Contribuir](#contribuir-)
+- [Licencia](#licencia-)
 
-## Descripción
+## Características Principales ✨
 
-e-commerce-ssd es una aplicación web para la venta de productos, con funcionalidades de catálogo, carrito de compras y gestión de usuarios.
+- Catálogo de productos con filtros y búsqueda
+- Carrito de compras persistente
+- Sistema de autenticación de usuarios
+- Pasarela de pagos integrada
+- Panel de administración
+- Diseño responsive y mobile-first
+- Optimizado para SEO
 
-## Tecnologías
+## Demo en Vivo 🌐
 
-- [Next.js](https://nextjs.org/)
-- [React](https://react.dev/)
-- [Node.js](https://nodejs.org/) o [Bun](https://bun.sh/)
-- [Tailwind CSS](https://tailwindcss.com/)
+[Ver demo]() (No esta  disponible aun)
+
+## Tecnologías 🛠️
+
+- **Frontend**: Next.js 15+, React 18, TypeScript
+- **Estilos**: Tailwind CSS 
+- **Autenticación**: NextAuth.js
+- **Pagos**: Stripe / PayPal API
+- **Testing**: Jest
+- **Deploy**: Vercel
+
 
 ## Instalación
 
@@ -59,12 +77,18 @@ e-commerce-ssd es una aplicación web para la venta de productos, con funcionali
 ## Estructura del Proyecto
 
 ```
-/(public)         # Rutas y vistas principales
-/components    # Componentes reutilizables
-/lib         # Utilidades y helpers
-/public        # Archivos estáticos
+/src
+│
+├── /components         # Componentes reutilizables
+├── /pages              # Rutas de la aplicación
+├── /styles             # Estilos globales
+├── /lib                # Utilidades y helpers
+├── /context            # Contextos de React
+├── /hooks              # Custom hooks
+├── /services           # Lógica de API/services
+├── /public             # Assets estáticos
+└── /tests              # Pruebas unitarias
 ```
-
 ## Comandos Útiles
 
 - `bun run dev`: Inicia el servidor de desarrollo.
