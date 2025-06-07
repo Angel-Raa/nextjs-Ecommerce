@@ -2,6 +2,8 @@
 
 Proyecto de tienda en línea desarrollado con Next.js.
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Angel-Raa/nextjs-Ecommerce)
+
 ## Tabla de Contenidos
 
 - [Descripción](#descripción)
