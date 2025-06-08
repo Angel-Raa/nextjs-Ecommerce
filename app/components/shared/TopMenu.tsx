@@ -1,10 +1,20 @@
 "use client";
+import { useCartStore } from "@/lib/store/cart-store";
 import { useUIStore } from "@/lib/store/ui-store";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { IoCartOutline, IoSearchOutline } from "react-icons/io5";
 
 export const TopMenu = () => {
   const toggleSideMenu = useUIStore((state) => state.toggleSideMenu);
+  const [totalItems, setTotalItems] = useState<number>(0); // Placeholder for any state you might need
+  const totalCartItems = useCartStore((state) => state.getCartItems());
+  //const [loaded, setLoaded] = useState<boolean>(false);
+  // Cargar el estado del carrito una vez que el componente se haya montado
+  // Esto es útil si necesitas realizar alguna acción al cargar el componente
+  useEffect(() => {
+    setTotalItems(totalCartItems);
+  },[totalCartItems]);
 
   return (
     <nav className="flex px-8 py-4 justify-between items-center w-full bg-white border-b border-gray-200">
@@ -53,7 +63,7 @@ export const TopMenu = () => {
             className="w-6 h-6 hover:text-blue-700 transition-colors"
           />
           <span className="absolute -top-2 -right-2 bg-blue-700 text-white text-xs rounded-full px-1 font-bold">
-            2
+            {totalItems > 0 ? totalItems : 0}
           </span>
         </Link>
         <button

@@ -27,13 +27,18 @@ interface CartActions {
   removeFromCart?: ({ id }: { id: string }) => void;
   updateQuantity?: ({ id, quantity }: { id: string; quantity: number }) => void;
   clearCart?: () => void;
+  getCartItems: () => number;
 }
 
 export const useCartStore = create<CartActions & CartState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       cartItems: [],
 
+      getCartItems: (): number => {
+        const { cartItems } = get();
+        return cartItems.reduce((total, item) => total + item.quantity, 0);
+      },
       addToCart: (product) =>
         set((state) => ({
           // Check if the product already exists in the cart
@@ -45,7 +50,6 @@ export const useCartStore = create<CartActions & CartState>()(
               )
             : [...state.cartItems, product],
         })),
-
     }),
 
     {
