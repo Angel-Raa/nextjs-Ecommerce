@@ -2,8 +2,45 @@ export const revalidate = 10080; // 7 days in minutes
 import { getProductBySlug } from "@/app/actions/products/products-actions";
 import { QuantityStepper, SizeTab, SlideDeck } from "@/app/components";
 import { StockLabel } from "@/app/components/product/StockLabel";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+
+interface Props {
+  params: {
+    slug: string;
+  }
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata>{
+  const { slug } = params;
+  const product = await getProductBySlug(slug); // Fetch product data by slug
+  if (!product) {
+    return {
+      title: "Producto no encontrado",
+      description: "El producto que estás buscando no existe.",
+    };
+  }
+  return {
+    title: product.title,
+    description: product.description,
+    openGraph: {
+      title: product.title,
+      description: product.description,
+      images: [`/products/${product.images[1]}`]
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.title,
+      description: product.description,
+      images: [`/products/${product.images[1]}`]
+    },
+    alternates: {
+      canonical: `/product/${slug}`,
+    },
+  };
+
+}
 export default async function Product({
   params,
 }: {

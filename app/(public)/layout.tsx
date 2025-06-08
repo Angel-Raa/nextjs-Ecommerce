@@ -3,6 +3,14 @@ import { TopMenu, Sidebar, Footer } from "../components";
 interface Props {
   children: React.ReactNode;
 }
+export const metadata = {
+  title: "E-commerce App",
+  description: "A simple e-commerce application built with Next.js",
+  openGraph: {  
+    title: "E-commerce App",
+    description: "A simple e-commerce application built with Next.js"
+  },
+}
 
 export default function PublicLayout({ children }: Props) {
   return (
