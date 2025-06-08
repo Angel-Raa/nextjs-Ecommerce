@@ -17,3 +17,10 @@ export { StockLabel } from "./product/StockLabel";
 // ORDEN AND ORDERS
 export { OrderItems } from "./order/OrderItems";
 export { Timeline } from "./order/Timeline";
+
+// CART
+export { ShoppingCart } from "./cart/ShoppingCart";
+
+
+// CHECKING
+export { Checkout } from "./checking/Checkout";

@@ -4,7 +4,7 @@ import { IoAddCircleOutline, IoRemoveCircleOutline } from "react-icons/io5";
 
 interface Props {
     quantity: number;
-    onQuantityChange?: (quantity: number) => void;
+    onQuantityChange: (quantity: number) => void;
     onAddToCart?: () => void;
 }
 
@@ -15,7 +15,7 @@ export const QuantityStepper = ({ quantity, onQuantityChange }: Props) => {
             return; // Prevent going below 1
         }
         // Call the callback with the new quantity
-       onQuantityChange?.(quantity + value);
+       onQuantityChange(quantity + value);
        
     };
 
