@@ -1,19 +1,19 @@
+export const revalidate = 10080; // 7 days in minutes
+import { getProductBySlug } from "@/app/actions/products/products-actions";
 import { QuantityStepper, SizeTab, SlideDeck } from "@/app/components";
-import { initialData } from "@/app/seed/seed";
+import { StockLabel } from "@/app/components/product/StockLabel";
 import { notFound } from "next/navigation";
 
-const productos = initialData.products;
-function getProductBySlug(slug: string) {
-  return productos.find((product) => product.slug === slug);
-}
 export default async function Product({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
+
   if (!product) return notFound();
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 bg-white min-h-screen font-sans">
@@ -30,6 +30,7 @@ export default async function Product({
         {/* Details */}
         <div className="md:w-1/3 w-full flex flex-col justify-between h-full">
           <div className="flex flex-col justify-center h-full">
+            <StockLabel slug={product.slug} />
             <h1 className="text-3xl md:text-5xl font-light mb-4 text-[#171a20] tracking-tight leading-tight">
               {product.title}
             </h1>

@@ -21,7 +21,6 @@ enum Size {
   L
   XL
   XXL
-
 }
 
 enum Gender {

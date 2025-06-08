@@ -54,3 +54,45 @@ export const getPaginatedProductsWithImages = async ({
     throw new Error("Failed to fetch products");
   }
 };
+
+export const getProductBySlug = async (slug: string) => {
+  try {
+    const product = await prisma.product.findUnique({
+      where: { slug },
+      include: {
+        ProductImage: {
+          select: {
+            url: true,
+          },
+        },
+      },
+    });
+
+    if (!product) {
+      throw new Error("Product not found");
+    }
+
+    return {
+      ...product,
+      images: product.ProductImage.map((img) => img.url),
+    };
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to fetch product");
+  }
+};
+
+export const getStockBySlug = async (slug: string) => {
+  try {
+    const stock = await prisma.product.findUnique({
+      where: { slug },
+      select: {
+        inStock: true,
+      },
+    });
+    return stock?.inStock ?? 0; // Retorna 0 si no se encuentra el producto o no tiene stock
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to fetch stock");
+  }
+};
