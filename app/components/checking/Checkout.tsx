@@ -1,22 +1,25 @@
 "use client";
+import { currencyFormat } from "@/app/utils/currencyFormat";
 import { useCartStore } from "@/lib/store/cart-store";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export const Checkout = () => {
   const [isMounted, setIsMounted] = useState(false);
+  const productInCart = useCartStore((state) => state.cartItems);
   const getSummaryInformation = useCartStore(
     (state) => state.getSummaryInformation
   );
 
   useEffect(() => {
     setIsMounted(true);
-  }, []);
+  }, [productInCart]);
 
   if (!isMounted) {
     return null;
   }
-  const { price, items } = getSummaryInformation();
+  //const {} = summaryInformation
+  const { price, items: totalItems } = getSummaryInformation();
   return (
     <div className="w-full md:w-[400px] flex-shrink-0">
       <div className="bg-white rounded-2xl border border-[#ececec] shadow-[0_2px_24px_0_rgba(0,0,0,0.08)] p-8 md:mt-0 mt-8">
@@ -24,9 +27,9 @@ export const Checkout = () => {
           Resumen del pedido{" "}
         </h2>
         <div className="flex justify-between items-center text-base text-[#171a20] mb-3">
-          <span>Artículos ({items})</span>
+          <span>Artículos ({totalItems})</span>
           <span className="text-[#5c5e62] font-normal">
-            {items} {items === 1 ? "artículo" : "artículos"}
+            {totalItems} {totalItems === 1 ? "artículo" : "artículos"}
           </span>
         </div>
         <div className="flex justify-between items-center text-base text-[#171a20] mb-3">
@@ -49,10 +52,10 @@ export const Checkout = () => {
         </div>
         <div className="flex justify-between items-center text-lg font-semibold text-[#171a20] mt-6 mb-2">
           <span>Subtotal</span>
-          <span>${price.toFixed(2)}</span>
+          <span>{price}</span>
         </div>
         <p className="text-xs text-[#5c5e62] mb-6">
-          4 pagos sin intereses de ${(price / 4).toFixed(2)}.{" "}
+          4 pagos sin intereses de {currencyFormat({ value: price / 4 })}
           <span className="underline cursor-pointer">Learn more</span>
         </p>
         <Link
