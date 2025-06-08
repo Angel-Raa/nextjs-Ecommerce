@@ -4,15 +4,12 @@ interface Props {
   title: string;
   price: number;
   images: string[];
-  gender:string
+  gender: string;
 }
 
-export const OrderItems = ({images, price, title, gender}: Props) => {
+export const OrderItems = ({ images, price, title, gender }: Props) => {
   return (
-    <div
-      
-      className="flex items-center space-x-4 pb-6 border-b border-gray-100 last:border-b-0 last:pb-0"
-    >
+    <div className="flex items-center space-x-4 pb-6 border-b border-gray-100 last:border-b-0 last:pb-0">
       <div className="relative w-20 h-20 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
         <Image
           src={`/products/${images[0]}`}

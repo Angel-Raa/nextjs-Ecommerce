@@ -11,6 +11,8 @@ export { ProductsGridItem } from "./products/ProductsGridItem";
 export { SizeTab } from "./product/SizeTab";
 export { QuantityStepper } from "./product/QuantityStepper";
 export { SlideDeck } from "./product/SlideDeck";
+export { AddToCart } from "./product/AddToCart";
+export { StockLabel } from "./product/StockLabel";
 
 // ORDEN AND ORDERS
 export { OrderItems } from "./order/OrderItems";

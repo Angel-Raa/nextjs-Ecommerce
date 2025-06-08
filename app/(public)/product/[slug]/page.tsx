@@ -1,18 +1,16 @@
 export const revalidate = 10080; // 7 days in minutes
 import { getProductBySlug } from "@/app/actions/products/products-actions";
-import { QuantityStepper, SizeTab, SlideDeck } from "@/app/components";
-import { StockLabel } from "@/app/components/product/StockLabel";
+import { SlideDeck, AddToCart, StockLabel } from "@/app/components";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-
 
 interface Props {
   params: {
     slug: string;
-  }
+  };
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata>{
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = params;
   const product = await getProductBySlug(slug); // Fetch product data by slug
   if (!product) {
@@ -27,19 +25,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata>{
     openGraph: {
       title: product.title,
       description: product.description,
-      images: [`/products/${product.images[1]}`]
+      images: [`/products/${product.images[1]}`],
     },
     twitter: {
       card: "summary_large_image",
       title: product.title,
       description: product.description,
-      images: [`/products/${product.images[1]}`]
+      images: [`/products/${product.images[1]}`],
     },
     alternates: {
       canonical: `/product/${slug}`,
     },
   };
-
 }
 export default async function Product({
   params,
@@ -50,7 +47,6 @@ export default async function Product({
   const product = await getProductBySlug(slug);
 
   if (!product) return notFound();
-
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 bg-white min-h-screen font-sans">
@@ -74,20 +70,13 @@ export default async function Product({
             <p className="text-2xl md:text-3xl font-medium mb-10 text-[#171a20]">
               ${product.price}
             </p>
-            {/* Selector de Tallas */}
-            <div className="mb-8">
-              <SizeTab
-                availableSizes={product.sizes}
-                selectSize={product.sizes[0]}
-              />
-            </div>
-            {/* Selector de Cantidad */}
-            <div className="mb-8">
-              <QuantityStepper quantity={2} />
-            </div>
-            <button className="w-full bg-[#171a20] text-white py-4 rounded-full font-semibold text-lg hover:bg-[#22262b] transition-colors duration-200 shadow-none tracking-widest uppercase mb-10">
-              Agregar al carrito
-            </button>
+
+            {/** AddToCart */}
+            <AddToCart
+              size={product.sizes[0]} // Default size, can be managed with state
+              availableSizes={product.sizes} // Available sizes from the product
+              quantity={1} // Default quantity, can be managed with state
+            />
             <h3 className="font-semibold text-base mb-2 text-[#171a20] tracking-wide">
               Descripción
             </h3>

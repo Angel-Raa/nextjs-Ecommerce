@@ -1,17 +1,22 @@
 "use client";
-import { useState } from "react";
+
 import { IoAddCircleOutline, IoRemoveCircleOutline } from "react-icons/io5";
 
 interface Props {
     quantity: number;
+    onQuantityChange?: (quantity: number) => void;
+    onAddToCart?: () => void;
 }
 
-export const QuantityStepper = ({ quantity }: Props) => {
-    const [count, setCount] = useState(quantity);
+export const QuantityStepper = ({ quantity, onQuantityChange }: Props) => {
 
     const onQuantityChanged = (value: number) => {
-        if (count + value < 1) return;
-        setCount(count + value);
+        if (quantity + value < 1) {
+            return; // Prevent going below 1
+        }
+        // Call the callback with the new quantity
+       onQuantityChange?.(quantity + value);
+       
     };
 
     return (
@@ -24,7 +29,7 @@ export const QuantityStepper = ({ quantity }: Props) => {
                 <IoRemoveCircleOutline size={36} className="text-black" />
             </button>
             <span className="min-w-[48px] text-center text-lg font-medium bg-white border border-gray-300 rounded px-4 py-1 shadow-sm select-none">
-                {count}
+                {quantity}
             </span>
             <button
                 onClick={() => onQuantityChanged(1)}
