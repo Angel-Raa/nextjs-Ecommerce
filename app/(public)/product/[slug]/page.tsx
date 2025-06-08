@@ -73,8 +73,8 @@ export default async function Product({
 
             {/** AddToCart */}
             <AddToCart
-              size={product.sizes[0]} // Default size, can be managed with state
-              availableSizes={product.sizes} // Available sizes from the product
+            product={product}
+            
               quantity={1} // Default quantity, can be managed with state
             />
             <h3 className="font-semibold text-base mb-2 text-[#171a20] tracking-wide">

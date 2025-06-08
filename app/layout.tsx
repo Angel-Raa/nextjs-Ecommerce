@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     "solid state drive",
     "webshop",
   ],
-  authors: [{ name: "E-Commerce-SSD Team" }],
+  authors: [{ name: "Angel Rafael Aguero" }],
   creator: "E-Commerce-SSD Team",
 };
 

@@ -1,15 +1,17 @@
 "use client";
-import { Size } from "@/interfaces/products";
+import { CartProduct, Products, Size } from "@/interfaces/products";
 import { QuantityStepper } from "./QuantityStepper";
 import { SizeTab } from "./SizeTab";
 import { useState } from "react";
+import { useCartStore } from "@/lib/store/cart-store";
 interface Props {
-  size: Size;
   quantity: number;
-  availableSizes: Size[];
+  product: Products;
 }
-export const AddToCart = ({ availableSizes, size }: Props) => {
-  const [selectSize, setSelectSize] = useState<Size | undefined>(size);
+export const AddToCart = ({ product }: Props) => {
+  const { id, slug, price, title, images, sizes } = product;
+  const addProductToCart = useCartStore((state) => state.addToCart);
+  const [selectSize, setSelectSize] = useState<Size | undefined>(sizes[0]); // Inicializa con la primera talla disponible
   const [selectQuantity, setQuantity] = useState<number>(1);
   const [posted, setPosted] = useState<boolean>(false);
   const addToCart = (): void => {
@@ -24,6 +26,22 @@ export const AddToCart = ({ availableSizes, size }: Props) => {
       size: selectSize,
       quantity: selectQuantity,
     });
+    // Aquí podrías llamar a una función del store para agregar el producto al carrito
+    const product: CartProduct = {
+      id: id,
+      slug: slug,
+      price: price,
+      quantity: selectQuantity,
+      title: title,
+      size: selectSize,
+      image: images[0] || "", // Asegúrate de que haya al menos una imagen
+    };
+    addProductToCart(product);
+    console.log("Producto agregado al carrito:", product);
+    
+    setPosted(false); // Resetea el estado de posted después de agregar al carrito
+    setSelectSize(undefined); // Resetea la talla seleccionada
+    setQuantity(1); // Resetea la cantidad seleccionada
   };
   return (
     <>
@@ -34,11 +52,11 @@ export const AddToCart = ({ availableSizes, size }: Props) => {
         </div>
       )}
       {/* Mensaje de debe selecionas una cantidad  */}
-      
+
       {/* Selector de Tallas */}
       <div className="mb-8">
         <SizeTab
-          availableSizes={availableSizes}
+          availableSizes={sizes}
           selectSize={selectSize}
           onSizeChange={setSelectSize}
         />
