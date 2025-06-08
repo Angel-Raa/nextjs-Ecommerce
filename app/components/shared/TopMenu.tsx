@@ -57,7 +57,9 @@ export const TopMenu = () => {
             className="w-6 h-6 hover:text-blue-700 transition-colors"
           />
         </Link>
-        <Link href="/cart" className="relative">
+        <Link href={
+          '/cart'
+        } className="relative">
           <IoCartOutline
             size={24}
             className="w-6 h-6 hover:text-blue-700 transition-colors"

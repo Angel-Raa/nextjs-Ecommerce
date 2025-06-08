@@ -21,6 +21,8 @@ export { Timeline } from "./order/Timeline";
 // CART
 export { ShoppingCart } from "./cart/ShoppingCart";
 
-
 // CHECKING
 export { Checkout } from "./checking/Checkout";
+
+// EMPTY
+export { EmptyStateIllustrated } from "./empty/EmptyStateIllustrated";

@@ -1,9 +1,28 @@
 "use client";
-import { Checkout, ShoppingCart } from "@/app/components";
-
-
+import {
+  Checkout,
+  EmptyStateIllustrated,
+  ShoppingCart,
+} from "@/app/components";
+import { useCartStore } from "@/lib/store/cart-store";
 
 export default function Cart() {
+  const cartItems = useCartStore((state) => state.cartItems);
+
+  if (cartItems.length === 0) {
+    return (
+      <EmptyStateIllustrated
+        type="cart"
+        title="Tu carrito está vacío"
+        description="Agrega productos para comenzar tu compra"
+        primaryAction={{
+          label: "Explorar productos",
+          href: "/",
+        }}
+        className="mt-12"
+      />
+    );
+  }
   return (
     <div className="flex justify-center items-start min-h-screen bg-[#fff] px-2 sm:px-0">
       <div className="w-full max-w-7xl py-12">
@@ -15,7 +34,7 @@ export default function Cart() {
           <ShoppingCart />
           {/* Checkout */}
 
-          <Checkout  />
+          <Checkout />
         </div>
       </div>
       <style jsx global>{`
