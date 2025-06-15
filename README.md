@@ -72,6 +72,12 @@ Proyecto de tienda en línea desarrollado con Next.js.
     bun run dev
     ```
 
+6. Genera  Secret key
+
+    ```bash
+    openssl rand -base64 32
+    ```
+
 ## Estructura del Proyecto
 
 ```
