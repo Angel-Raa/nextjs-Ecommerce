@@ -1,16 +1,17 @@
-interface Props {
-  children: React.ReactNode;
-}
-
 import type React from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { auth } from "@/auth.config";
+import { redirect } from "next/navigation";
 
 interface Props {
   children: React.ReactNode;
 }
 
-export default function AuthLayout({ children }: Props) {
+export default async function AuthLayout({ children }: Props) {
+  const session = await auth();
+  console.log({ session });
+  if (session?.user) redirect("/");
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 relative overflow-hidden">
       {/* Background Pattern */}
@@ -45,7 +46,6 @@ export default function AuthLayout({ children }: Props) {
               </div>
               <span className="text-xl font-light text-gray-900 tracking-wide hidden sm:block">
                 E-Commerce SDD
-
               </span>
             </Link>
 

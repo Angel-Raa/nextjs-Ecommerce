@@ -14,7 +14,7 @@ import clsx from "clsx";
 
 const sidebarItem = [
   {
-    href: "/",
+    href: "/profile",
     icon: <IoPersonOutline size={30} />,
     title: "Ver perfil",
   },
@@ -54,13 +54,13 @@ export const Sidebar = () => {
           "fixed top-0 right-0 h-full w-full max-w-xs sm:max-w-sm md:max-w-md bg-white z-20 shadow-xl transition-transform duration-300 p-6 flex flex-col gap-6",
           {
             "translate-x-full": !isSideMenuOpen,
-            "translate-x-0" :isSideMenuOpen
+            "translate-x-0": isSideMenuOpen,
           }
         )}
       >
         <button
           className="absolute top-4 right-4 text-gray-700 hover:text-black transition-colors"
-          onClick={ toggleSideMenu}
+          onClick={toggleSideMenu}
           aria-label="Cerrar menú"
         >
           <IoCloseOutline size={32} />
