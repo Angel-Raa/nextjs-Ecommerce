@@ -1,17 +1,25 @@
 import prisma from "@/lib/database/prisma";
 import { initialData } from "./seed";
-
 const main = async () => {
   try {
     console.log("Iniciando la siembra de la base de datos...");
-    const { categories, products } = initialData;
+    const { categories, products,users  } = initialData;
 
     await Promise.all([
+    
+      prisma.users.deleteMany({}),
       prisma.productImage.deleteMany({}),
       prisma.product.deleteMany({}),
       prisma.category.deleteMany({}),
     ]);
 
+
+    await prisma.users.createMany({
+      data:users
+    })
+  
+
+    
     const categoriesData = categories.map((name) => ({ name }));
     await prisma.category.createMany({ data: categoriesData });
 

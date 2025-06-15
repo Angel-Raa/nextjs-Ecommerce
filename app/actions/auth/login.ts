@@ -22,7 +22,7 @@ export async function authenticate(
       redirect: false, // Prevent redirect in Server Action
     });
 
-    return null; // Success
+    return undefined; // Success
   } catch (error) {
     console.error("Authentication error:", error); // Log the error
     if (error instanceof AuthError) {

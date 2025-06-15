@@ -1,8 +1,25 @@
 -- CreateEnum
-CREATE TYPE "Size" AS ENUM ('XS', 'S', 'M', 'XL', 'L', 'XXL');
+CREATE TYPE "Role" AS ENUM ('ADMIN', 'USER');
+
+-- CreateEnum
+CREATE TYPE "Size" AS ENUM ('XS', 'S', 'M', 'L', 'XL', 'XXL');
 
 -- CreateEnum
 CREATE TYPE "Gender" AS ENUM ('men', 'women', 'kid', 'unisex');
+
+-- CreateTable
+CREATE TABLE "Users" (
+    "id" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "lastName" TEXT NOT NULL,
+    "firstName" TEXT NOT NULL,
+    "confirmPassword" TEXT NOT NULL,
+    "image" TEXT,
+    "rol" "Role" NOT NULL DEFAULT 'USER',
+
+    CONSTRAINT "Users_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "Category" (
@@ -28,6 +45,18 @@ CREATE TABLE "Product" (
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "ProductImage" (
+    "id" SERIAL NOT NULL,
+    "url" TEXT NOT NULL,
+    "productId" TEXT NOT NULL,
+
+    CONSTRAINT "ProductImage_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Users_email_key" ON "Users"("email");
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Category_name_key" ON "Category"("name");
 
@@ -39,3 +68,6 @@ CREATE INDEX "Product_gender_idx" ON "Product"("gender");
 
 -- AddForeignKey
 ALTER TABLE "Product" ADD CONSTRAINT "Product_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ProductImage" ADD CONSTRAINT "ProductImage_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
