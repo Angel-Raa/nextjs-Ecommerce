@@ -1,81 +1,83 @@
-"use client"
-import { useActionState } from "react"
-import { useState } from "react"
-import Link from "next/link"
-import { Eye, EyeOff, Mail, Lock, ArrowRight, Shield } from "lucide-react"
-import { authenticate } from "@/app/actions/auth/login"
+"use client";
+import { useActionState } from "react";
+import { useState, useCallback } from "react";
+import Link from "next/link";
+import { Eye, EyeOff, Mail, Lock, ArrowRight, Shield } from "lucide-react";
+import { authenticate } from "@/app/actions/auth/login";
+
+interface FormData {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+}
+
+interface FormErrors {
+  email?: string;
+  password?: string;
+}
 
 export default function Login() {
-  const [state, dispatch, isPending] = useActionState(authenticate, undefined)
-  const [formData, setFormData] = useState({
+  const [state, dispatch, isPending] = useActionState(authenticate, undefined);
+  const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
     rememberMe: false,
-  })
-  const [showPassword, setShowPassword] = useState(false)
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({})
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState<FormErrors>({});
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
+    const newValue = type === "checkbox" ? checked : value;
+    
     setFormData(prev => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }))
+      [name]: newValue,
+    }));
 
-    if (errors[name as keyof typeof errors]) {
-      setErrors(prev => ({ ...prev, [name]: undefined }))
+    // Clear error when user types
+    if (errors[name as keyof FormErrors]) {
+      setErrors(prev => ({ ...prev, [name]: undefined }));
     }
-  }
+  }, [errors]);
 
-  const validateForm = () => {
-    const newErrors: { email?: string; password?: string } = {}
+  const togglePasswordVisibility = useCallback(() => {
+    setShowPassword(prev => !prev);
+  }, []);
 
-    if (!formData.email) {
-      newErrors.email = "Email is required"
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email"
-    }
+  const handleGoogleLogin = useCallback(() => {
+    // Implementar lógica de Google OAuth aquí
+    console.log("Iniciando sesión con Google...");
+  }, []);
 
-    if (!formData.password) {
-      newErrors.password = "Password is required"
-    } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters"
-    }
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (!validateForm()) return
-
-   
-  }
+  const inputBaseClasses = "block w-full py-4 border rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200";
+  
+  const getInputClasses = (hasError: boolean) => 
+    `${inputBaseClasses} ${hasError ? "border-red-300 bg-red-50" : "border-gray-200 hover:border-gray-300"}`;
 
   return (
     <main className="min-h-screen bg-white flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-md">
         {/* Header */}
-        <div className="text-center mb-12">
+        <header className="text-center mb-12">
           <h1 className="text-4xl lg:text-5xl font-light text-gray-900 tracking-tight mb-4">
             Welcome Back
           </h1>
           <p className="text-lg text-gray-600 font-light">
             Sign in to your account to continue
           </p>
-        </div>
+        </header>
 
         {/* Login Form */}
         <div className="bg-white rounded-3xl shadow-2xl shadow-black/5 border border-gray-100 p-8 lg:p-10">
+          {/* Error Message */}
           {state && (
-            <div className="mb-4 p-3 bg-red-50 text-red-600 text-sm rounded-lg">
-              {state}
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl" role="alert">
+              <strong className="font-medium">Error:</strong> {state}
             </div>
           )}
-          
-          <form onSubmit={handleSubmit} className="space-y-6">
+
+          <form action={dispatch} className="space-y-6" noValidate>
             {/* Email Field */}
             <div>
               <label
@@ -86,25 +88,25 @@ export default function Login() {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
+                  <Mail className="h-5 w-5 text-gray-400" aria-hidden="true" />
                 </div>
                 <input
                   id="email"
                   name="email"
                   type="email"
                   autoComplete="email"
+                  required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className={`block w-full pl-12 pr-4 py-4 border rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 ${
-                    errors.email
-                      ? "border-red-300 bg-red-50"
-                      : "border-gray-200 hover:border-gray-300"
-                  }`}
+                  className={`${getInputClasses(!!errors.email)} pl-12 pr-4`}
                   placeholder="Enter your email"
+                  aria-describedby={errors.email ? "email-error" : undefined}
                 />
               </div>
               {errors.email && (
-                <p className="mt-2 text-sm text-red-600">{errors.email}</p>
+                <p id="email-error" className="mt-2 text-sm text-red-600" role="alert">
+                  {errors.email}
+                </p>
               )}
             </div>
 
@@ -118,26 +120,25 @@ export default function Login() {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
+                  <Lock className="h-5 w-5 text-gray-400" aria-hidden="true" />
                 </div>
                 <input
                   id="password"
                   name="password"
                   type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
+                  required
                   value={formData.password}
                   onChange={handleInputChange}
-                  className={`block w-full pl-12 pr-12 py-4 border rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 ${
-                    errors.password
-                      ? "border-red-300 bg-red-50"
-                      : "border-gray-200 hover:border-gray-300"
-                  }`}
+                  className={`${getInputClasses(!!errors.password)} pl-12 pr-12`}
                   placeholder="Enter your password"
+                  aria-describedby={errors.password ? "password-error" : undefined}
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center"
-                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center hover:bg-gray-50 rounded-r-2xl transition-colors duration-200"
+                  onClick={togglePasswordVisibility}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
@@ -147,7 +148,9 @@ export default function Login() {
                 </button>
               </div>
               {errors.password && (
-                <p className="mt-2 text-sm text-red-600">{errors.password}</p>
+                <p id="password-error" className="mt-2 text-sm text-red-600" role="alert">
+                  {errors.password}
+                </p>
               )}
             </div>
 
@@ -160,11 +163,11 @@ export default function Login() {
                   type="checkbox"
                   checked={formData.rememberMe}
                   onChange={handleInputChange}
-                  className="h-4 w-4 text-black focus:ring-black border-gray-300 rounded"
+                  className="h-4 w-4 text-black focus:ring-black border-gray-300 rounded transition-colors duration-200"
                 />
                 <label
                   htmlFor="rememberMe"
-                  className="ml-2 block text-sm text-gray-700"
+                  className="ml-2 block text-sm text-gray-700 cursor-pointer"
                 >
                   Remember me
                 </label>
@@ -172,7 +175,7 @@ export default function Login() {
 
               <Link
                 href="/auth/forgot-password"
-                className="text-sm text-gray-600 hover:text-black transition-colors duration-200"
+                className="text-sm text-gray-600 hover:text-black transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded"
               >
                 Forgot password?
               </Link>
@@ -186,13 +189,13 @@ export default function Login() {
             >
               {isPending ? (
                 <div className="flex items-center space-x-2">
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" aria-hidden="true"></div>
                   <span>Signing in...</span>
                 </div>
               ) : (
                 <div className="flex items-center space-x-2">
                   <span>Sign In</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />
                 </div>
               )}
             </button>
@@ -216,10 +219,11 @@ export default function Login() {
           <div className="mt-6">
             <button
               type="button"
-              onClick={() => console.log("hey")}
-              className="w-full inline-flex justify-center py-3 px-4 border border-gray-200 rounded-2xl bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+              onClick={handleGoogleLogin}
+              className="w-full inline-flex justify-center items-center py-3 px-4 border border-gray-200 rounded-2xl bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition-colors duration-200"
+              aria-label="Continue with Google"
             >
-              <svg className="w-5 h-5" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
                 <path
                   fill="currentColor"
                   d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -248,7 +252,7 @@ export default function Login() {
             Don&apos;t have an account?{" "}
             <Link
               href="/auth/sign"
-              className="font-medium text-black hover:text-gray-700 transition-colors duration-200"
+              className="font-medium text-black hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded transition-colors duration-200"
             >
               Create one now
             </Link>
@@ -257,10 +261,10 @@ export default function Login() {
 
         {/* Security Notice */}
         <div className="mt-6 flex items-center justify-center space-x-2 text-xs text-gray-500">
-          <Shield className="w-3 h-3" />
+          <Shield className="w-3 h-3" aria-hidden="true" />
           <span>Your information is secure and encrypted</span>
         </div>
       </div>
     </main>
-  )
+  );
 }

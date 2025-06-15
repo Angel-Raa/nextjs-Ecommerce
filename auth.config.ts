@@ -22,7 +22,7 @@ export const authConfig: NextAuthConfig = {
 
         // RETONA EN USER;
 
-        return null;
+        return { id: "1", name: "angel", email };
       },
     }),
   ],
