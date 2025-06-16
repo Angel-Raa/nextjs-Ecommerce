@@ -11,33 +11,37 @@ import React from "react";
 import { SidebarItem } from "./SidebarItem";
 import { useUIStore } from "@/lib/store/ui-store";
 import clsx from "clsx";
-
-const sidebarItem = [
-  {
-    href: "/profile",
-    icon: <IoPersonOutline size={30} />,
-    title: "Ver perfil",
-  },
-  {
-    href: "/orders",
-    icon: <IoTicketOutline size={30} />,
-    title: "Historial de órdenes",
-  },
-  {
-    href: "/auth/login",
-    icon: <IoLogInOutline size={30} />,
-    title: "Iniciar sesión",
-  },
-  {
-    href: "/auth/sign",
-    icon: <IoLogOutOutline size={30} />,
-    title: "Cerrar sesión",
-  },
-];
-
+import { logout } from "@/app/actions/auth/logout";
 export const Sidebar = () => {
   const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen);
   const toggleSideMenu = useUIStore((state) => state.toggleSideMenu);
+
+  const sidebarItem = [
+    {
+      href: "/profile",
+      icon: <IoPersonOutline size={30} />,
+      title: "Ver perfil",
+    },
+    {
+      href: "/orders",
+      icon: <IoTicketOutline size={30} />,
+      title: "Historial de órdenes",
+    },
+    {
+      href: "/auth/login",
+      icon: <IoLogInOutline size={30} />,
+      title: "Iniciar sesión",
+    },
+
+    {
+      action: async () => {
+        await logout(); // Ejecuta la acción de logout
+      },
+      icon: <IoLogOutOutline size={30} />,
+      title: "Cerrar sesión",
+    },
+  ];
+
   return (
     <div>
       {/* BG Black */}
@@ -85,11 +89,11 @@ export const Sidebar = () => {
         </div>
 
         {/** OPCIONES */}
-        {sidebarItem.map((item) => (
-          <SidebarItem key={item.title} {...item} />
+        {sidebarItem.map((item, index) => (
+          <SidebarItem key={item.title + index} {...item} />
         ))}
 
-        {/** LIne Separator */}
+        {/** Line Separator */}
         <div className="w-full h-px bg-gray-200 my-10" />
       </nav>
     </div>
