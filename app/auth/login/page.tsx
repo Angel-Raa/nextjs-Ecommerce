@@ -1,9 +1,10 @@
 "use client";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { useState, useCallback } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, Mail, Lock, ArrowRight, Shield } from "lucide-react";
 import { authenticate } from "@/app/actions/auth/login";
+import { useRouter } from "next/navigation";
 
 interface FormData {
   email: string;
@@ -15,8 +16,17 @@ interface FormErrors {
   email?: string;
   password?: string;
 }
+const inputBaseClasses =
+  "block w-full py-4 border rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200";
 
+const getInputClasses = (hasError: boolean) =>
+  `${inputBaseClasses} ${
+    hasError
+      ? "border-red-300 bg-red-50"
+      : "border-gray-200 hover:border-gray-300"
+  }`;
 export default function Login() {
+  const router = useRouter();
   const [state, dispatch, isPending] = useActionState(authenticate, undefined);
   const [formData, setFormData] = useState<FormData>({
     email: "",
@@ -26,34 +36,37 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
 
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    const newValue = type === "checkbox" ? checked : value;
-    
-    setFormData(prev => ({
-      ...prev,
-      [name]: newValue,
-    }));
-
-    // Clear error when user types
-    if (errors[name as keyof FormErrors]) {
-      setErrors(prev => ({ ...prev, [name]: undefined }));
+  useEffect(() => {
+    if (!state === undefined) {
+      router.replace("/");
     }
-  }, [errors]);
+  }, [state, router]);
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value, type, checked } = e.target;
+      const newValue = type === "checkbox" ? checked : value;
+
+      setFormData((prev) => ({
+        ...prev,
+        [name]: newValue,
+      }));
+
+      // Clear error when user types
+      if (errors[name as keyof FormErrors]) {
+        setErrors((prev) => ({ ...prev, [name]: undefined }));
+      }
+    },
+    [errors]
+  );
 
   const togglePasswordVisibility = useCallback(() => {
-    setShowPassword(prev => !prev);
+    setShowPassword((prev) => !prev);
   }, []);
 
   const handleGoogleLogin = useCallback(() => {
     // Implementar lógica de Google OAuth aquí
     console.log("Iniciando sesión con Google...");
   }, []);
-
-  const inputBaseClasses = "block w-full py-4 border rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200";
-  
-  const getInputClasses = (hasError: boolean) => 
-    `${inputBaseClasses} ${hasError ? "border-red-300 bg-red-50" : "border-gray-200 hover:border-gray-300"}`;
 
   return (
     <main className="min-h-screen bg-white flex items-center justify-center px-4 py-8">
@@ -72,7 +85,10 @@ export default function Login() {
         <div className="bg-white rounded-3xl shadow-2xl shadow-black/5 border border-gray-100 p-8 lg:p-10">
           {/* Error Message */}
           {state && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl" role="alert">
+            <div
+              className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl"
+              role="alert"
+            >
               <strong className="font-medium">Error:</strong> {state}
             </div>
           )}
@@ -104,7 +120,11 @@ export default function Login() {
                 />
               </div>
               {errors.email && (
-                <p id="email-error" className="mt-2 text-sm text-red-600" role="alert">
+                <p
+                  id="email-error"
+                  className="mt-2 text-sm text-red-600"
+                  role="alert"
+                >
                   {errors.email}
                 </p>
               )}
@@ -130,9 +150,13 @@ export default function Login() {
                   required
                   value={formData.password}
                   onChange={handleInputChange}
-                  className={`${getInputClasses(!!errors.password)} pl-12 pr-12`}
+                  className={`${getInputClasses(
+                    !!errors.password
+                  )} pl-12 pr-12`}
                   placeholder="Enter your password"
-                  aria-describedby={errors.password ? "password-error" : undefined}
+                  aria-describedby={
+                    errors.password ? "password-error" : undefined
+                  }
                 />
                 <button
                   type="button"
@@ -148,7 +172,11 @@ export default function Login() {
                 </button>
               </div>
               {errors.password && (
-                <p id="password-error" className="mt-2 text-sm text-red-600" role="alert">
+                <p
+                  id="password-error"
+                  className="mt-2 text-sm text-red-600"
+                  role="alert"
+                >
                   {errors.password}
                 </p>
               )}
@@ -189,13 +217,19 @@ export default function Login() {
             >
               {isPending ? (
                 <div className="flex items-center space-x-2">
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" aria-hidden="true"></div>
+                  <div
+                    className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"
+                    aria-hidden="true"
+                  ></div>
                   <span>Signing in...</span>
                 </div>
               ) : (
                 <div className="flex items-center space-x-2">
                   <span>Sign In</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />
+                  <ArrowRight
+                    className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200"
+                    aria-hidden="true"
+                  />
                 </div>
               )}
             </button>

@@ -1,3 +1,4 @@
+// app/actions/auth.ts
 "use server";
 
 import { signIn } from "@/auth.config";
@@ -19,12 +20,12 @@ export async function authenticate(
     await signIn("credentials", {
       email: credentials.email,
       password: credentials.password,
-      redirect: false, // Prevent redirect in Server Action
+      redirect: false,
     });
 
-    return undefined; // Success
+    // No necesitas retornar "Success" porque la redirección ocurre en signIn
   } catch (error) {
-    console.error("Authentication error:", error); // Log the error
+    console.error("Authentication error:", error);
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
@@ -33,6 +34,9 @@ export async function authenticate(
           return "Ocurrió un error al iniciar sesión";
       }
     }
-    return "Error desconocido: " + (error instanceof Error ? error.message : String(error));
+    return (
+      "Error desconocido: " +
+      (error instanceof Error ? error.message : String(error))
+    );
   }
 }

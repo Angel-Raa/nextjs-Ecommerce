@@ -80,6 +80,7 @@ export const authConfig: NextAuthConfig = {
       },
     }),
   ],
+  
 
 
 };
